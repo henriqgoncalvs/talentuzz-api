@@ -13,7 +13,9 @@ import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { RtGuard } from 'src/common/guards/rt.guard';
 import { JwtTokens } from './types/jwt-tokens.type';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

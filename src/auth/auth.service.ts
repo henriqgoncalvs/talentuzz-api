@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -15,7 +16,6 @@ import { UsersService } from 'src/users/users.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { JwtTokens } from './types/jwt-tokens.type';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class AuthService {
@@ -75,12 +75,10 @@ export class AuthService {
         },
       })
       .catch((error) => {
-        if (error instanceof PrismaClientKnownRequestError) {
-          if (error.code === 'P2002') {
-            throw new ConflictException(MessagesHelper.EMAIL_EXIST);
-          }
+        if (error.code === 'P2002') {
+          throw new ConflictException(MessagesHelper.EMAIL_EXIST);
         }
-        throw error;
+        throw new BadRequestException();
       });
 
     const tokens = await this.getTokens(user.id, user.email);
@@ -131,7 +129,7 @@ export class AuthService {
     return { access_token };
   }
 
-  async updateRtHash(userId: string, rt: string): Promise<void> {
+  private async updateRtHash(userId: string, rt: string): Promise<void> {
     const hashedRt = await argon.hash(rt);
 
     await this.prismaService.user.update({
@@ -144,7 +142,7 @@ export class AuthService {
     });
   }
 
-  async getTokens(userId: string, email: string): Promise<JwtTokens> {
+  private async getTokens(userId: string, email: string): Promise<JwtTokens> {
     const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
