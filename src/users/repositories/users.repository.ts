@@ -9,6 +9,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { MessagesHelper } from 'src/common/helpers/messages.helper';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { SignUpDto } from 'src/auth/dto/sign-up.dto';
+import { PrismaError } from 'src/common/errors/prisma-error';
 
 @Injectable()
 export class UsersRepository {
@@ -21,7 +22,7 @@ export class UsersRepository {
       })
       .catch((error) => {
         if (error instanceof PrismaClientKnownRequestError) {
-          if (error.code === 'P2002') {
+          if (error.code === PrismaError.UniqueConstraintFailed) {
             throw new ConflictException(MessagesHelper.EMAIL_EXIST);
           }
         }
