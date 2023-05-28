@@ -16,6 +16,7 @@ import { UsersService } from 'src/users/users.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { JwtTokens } from './types/jwt-tokens.type';
+import { PrismaError } from 'src/common/errors/prisma-error';
 
 @Injectable()
 export class AuthService {
@@ -75,7 +76,7 @@ export class AuthService {
         },
       })
       .catch((error) => {
-        if (error.code === 'P2002') {
+        if (error.code === PrismaError.UniqueConstraintFailed) {
           throw new ConflictException(MessagesHelper.EMAIL_EXIST);
         }
         throw new BadRequestException();

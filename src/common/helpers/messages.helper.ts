@@ -6,4 +6,5 @@ export const MessagesHelper = {
   USER_NOT_FOUND: 'Usuário não encontrado',
   CREDENTIALS_INVALID: 'Email ou senha incorretos',
   EMAIL_EXIST: 'Email já está uso',
+  ORGANIZATION_NOT_FOUND: 'Organização não encontrada',
 };
