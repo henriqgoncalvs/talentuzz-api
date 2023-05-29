@@ -3,6 +3,7 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateOrganizationDto } from '../dto/create-organization.dto';
 import { UpdateOrganizationDto } from '../dto/update-organization.dto';
 import { Organization } from '@prisma/client';
+import { OrganizationWithJobs } from '../types/organization-with-jobs.type';
 
 @Injectable()
 export class OrganizationRepository {
@@ -32,6 +33,26 @@ export class OrganizationRepository {
     return this.prismaService.organization.findFirstOrThrow({
       where: {
         adminId: userId,
+      },
+    });
+  }
+
+  async findOneWithJobs(id: string): Promise<OrganizationWithJobs> {
+    return this.prismaService.organization.findFirstOrThrow({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        info: true,
+        phone: true,
+        profileImage: true,
+        location: true,
+        createdAt: true,
+        adminId: true,
+        jobs: true,
       },
     });
   }

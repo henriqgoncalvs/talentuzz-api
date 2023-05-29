@@ -6,6 +6,7 @@ import { Organization } from '@prisma/client';
 import { MessagesHelper } from 'src/common/helpers/messages.helper';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaError } from 'src/common/errors/prisma-error';
+import { OrganizationWithJobs } from './types/organization-with-jobs.type';
 
 @Injectable()
 export class OrganizationService {
@@ -37,6 +38,14 @@ export class OrganizationService {
       return this.organizationRepository.findByUserId(userId);
     } catch {
       throw new NotFoundException(MessagesHelper.USER_WITH_NO_ORGANIZATION);
+    }
+  }
+
+  async findOneWithJobs(id: string): Promise<OrganizationWithJobs> {
+    try {
+      return this.organizationRepository.findOneWithJobs(id);
+    } catch {
+      throw new NotFoundException(MessagesHelper.ORGANIZATION_NOT_FOUND);
     }
   }
 
