@@ -28,6 +28,14 @@ export class OrganizationRepository {
     });
   }
 
+  async findByUserId(userId: string): Promise<Organization> {
+    return this.prismaService.organization.findFirstOrThrow({
+      where: {
+        adminId: userId,
+      },
+    });
+  }
+
   async findAll(): Promise<Organization[]> {
     return await this.prismaService.organization.findMany();
   }

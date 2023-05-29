@@ -7,4 +7,5 @@ export const MessagesHelper = {
   CREDENTIALS_INVALID: 'Email ou senha incorretos',
   EMAIL_EXIST: 'Email já está uso',
   ORGANIZATION_NOT_FOUND: 'Organização não encontrada',
+  USER_WITH_NO_ORGANIZATION: 'O usuário não tem organização criada!',
 };

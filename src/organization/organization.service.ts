@@ -32,6 +32,14 @@ export class OrganizationService {
     return this.organizationRepository.findAll();
   }
 
+  findByUserId(userId: string): Promise<Organization> {
+    try {
+      return this.organizationRepository.findByUserId(userId);
+    } catch {
+      throw new NotFoundException(MessagesHelper.USER_WITH_NO_ORGANIZATION);
+    }
+  }
+
   async update(id: string, updateOrganizationDto: UpdateOrganizationDto) {
     try {
       return this.organizationRepository.update(id, updateOrganizationDto);
