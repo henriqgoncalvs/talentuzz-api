@@ -17,7 +17,18 @@ model User {
   createdAt DateTime @default(now())
   hashedRt  String?
 
+  avatar PublicFile?
+
   organization Organization?
+}
+
+model PublicFile {
+  id  String @id @default(uuid())
+  url String
+  key String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
 }
 
 model Organization {

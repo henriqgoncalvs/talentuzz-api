@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/users.repository';
 import { SignUpDto } from 'src/auth/dto/sign-up.dto';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly filesService: FilesService,
+  ) {}
 
   create(signUpDto: SignUpDto) {
     return this.usersRepository.create(signUpDto);
@@ -29,5 +33,25 @@ export class UsersService {
 
   remove(id: string) {
     return this.usersRepository.remove(id);
+  }
+
+  async addAvatar(userId: string, imageBuffer: Buffer, filename: string) {
+    const avatar = await this.filesService.uploadPublicFile(
+      imageBuffer,
+      filename,
+      userId,
+    );
+
+    return avatar;
+  }
+
+  async deleteAvatar(userId: string) {
+    const user = await this.findOne(userId);
+
+    const fileId = user.avatar?.id;
+
+    if (fileId) {
+      await this.filesService.deletePublicFile(fileId, userId);
+    }
   }
 }

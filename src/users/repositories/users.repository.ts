@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { User } from '@prisma/client';
+import { PublicFile, User } from '@prisma/client';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { MessagesHelper } from 'src/common/helpers/messages.helper';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -32,7 +32,7 @@ export class UsersRepository {
 
   async findOneOrFail(
     id: string,
-  ): Promise<Omit<User, 'password' | 'hashedRt'>> {
+  ): Promise<Omit<User & { avatar: PublicFile }, 'password' | 'hashedRt'>> {
     try {
       const user = await this.prismaService.user.findFirstOrThrow({
         where: {
@@ -42,6 +42,7 @@ export class UsersRepository {
           createdAt: true,
           email: true,
           id: true,
+          avatar: true,
         },
       });
 
@@ -71,6 +72,7 @@ export class UsersRepository {
         createdAt: true,
         email: true,
         id: true,
+        avatar: true,
       },
     });
   }

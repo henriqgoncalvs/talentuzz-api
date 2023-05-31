@@ -7,7 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards/at.guard';
 import { OrganizationModule } from './organization/organization.module';
 import { JobsModule } from './jobs/jobs.module';
-import { FileModule } from './file/file.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { FileModule } from './file/file.module';
     AuthModule,
     OrganizationModule,
     JobsModule,
-    FileModule,
+    FilesModule,
   ],
   providers: [
     {
