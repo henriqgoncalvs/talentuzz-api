@@ -12,8 +12,8 @@ import { GetCurrentUser } from 'src/common/decorators/get-current-user.decorator
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { RtGuard } from 'src/common/guards/rt.guard';
-import { JwtTokens } from './types/jwt-tokens.type';
 import { ApiTags } from '@nestjs/swagger';
+import { UserWithTokenEntity } from './entities/user-with-token.entity';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -23,31 +23,35 @@ export class AuthController {
   @IsPublic()
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto) {
+    return new UserWithTokenEntity(await this.authService.login(loginDto));
   }
 
   @IsPublic()
   @Post('signup')
   @HttpCode(HttpStatus.OK)
-  signUp(@Body() signUpDto: SignUpDto) {
-    return this.authService.signUp(signUpDto);
+  async signUp(@Body() signUpDto: SignUpDto) {
+    return new UserWithTokenEntity(await this.authService.signUp(signUpDto));
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@GetCurrentUser('sub') userId: string): Promise<boolean> {
-    return this.authService.logout(userId);
+  async logout(@GetCurrentUser('sub') userId: string) {
+    await this.authService.logout(userId);
+
+    return;
   }
 
   @IsPublic()
   @UseGuards(RtGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  refreshTokens(
+  async refreshTokens(
     @GetCurrentUser('sub') userId: string,
     @GetCurrentUser('refreshToken') refreshToken: string,
-  ): Promise<Pick<JwtTokens, 'access_token'>> {
-    return this.authService.refreshAccessToken(userId, refreshToken);
+  ) {
+    await this.authService.refreshAccessToken(userId, refreshToken);
+
+    return;
   }
 }

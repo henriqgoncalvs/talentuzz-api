@@ -8,6 +8,7 @@ import { AtGuard } from './common/guards/at.guard';
 import { OrganizationModule } from './organization/organization.module';
 import { JobsModule } from './jobs/jobs.module';
 import { FilesModule } from './files/files.module';
+import { MeModule } from './me/me.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { FilesModule } from './files/files.module';
     OrganizationModule,
     JobsModule,
     FilesModule,
+    MeModule,
   ],
   providers: [
     {

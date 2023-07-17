@@ -23,6 +23,10 @@ export class UsersService {
     return this.usersRepository.findOneOrFail(id);
   }
 
+  findOneWithOrganization(id: string) {
+    return this.usersRepository.findOneWithOrganizationOrFail(id);
+  }
+
   findByEmail(email: string) {
     return this.usersRepository.findByEmailOrFail(email);
   }

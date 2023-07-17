@@ -10,13 +10,14 @@ import { LoginDto } from './dto/login.dto';
 import { MessagesHelper } from 'src/common/helpers/messages.helper';
 import { JwtPayload } from './types/jwt-payload.type';
 import { JwtService } from '@nestjs/jwt';
-import { UserToken } from './types/user-token.type';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { JwtTokens } from './types/jwt-tokens.type';
 import { PrismaError } from 'src/common/errors/prisma-error';
+import { UserWithTokenEntity } from './entities/user-with-token.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -27,17 +28,14 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async login(loginDto: LoginDto): Promise<UserToken> {
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        email: loginDto.email,
-      },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-      },
-    });
+  async login(loginDto: LoginDto): Promise<UserWithTokenEntity> {
+    const user = new UserEntity(
+      await this.prismaService.user.findUnique({
+        where: {
+          email: loginDto.email,
+        },
+      }),
+    );
 
     if (!user) {
       throw new UnauthorizedException(MessagesHelper.CREDENTIALS_INVALID);
@@ -61,26 +59,28 @@ export class AuthService {
     };
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<UserToken> {
+  async signUp(signUpDto: SignUpDto): Promise<UserWithTokenEntity> {
     const hash = await argon.hash(signUpDto.password);
 
-    const user = await this.prismaService.user
-      .create({
-        data: {
-          email: signUpDto.email,
-          password: hash,
-        },
-        select: {
-          id: true,
-          email: true,
-        },
-      })
-      .catch((error) => {
-        if (error.code === PrismaError.UniqueConstraintFailed) {
-          throw new ConflictException(MessagesHelper.EMAIL_EXIST);
-        }
-        throw new BadRequestException();
-      });
+    const user = new UserEntity(
+      await this.prismaService.user
+        .create({
+          data: {
+            email: signUpDto.email,
+            password: hash,
+          },
+          select: {
+            id: true,
+            email: true,
+          },
+        })
+        .catch((error) => {
+          if (error.code === PrismaError.UniqueConstraintFailed) {
+            throw new ConflictException(MessagesHelper.EMAIL_EXIST);
+          }
+          throw new BadRequestException();
+        }),
+    );
 
     const tokens = await this.getTokens(user.id, user.email);
 

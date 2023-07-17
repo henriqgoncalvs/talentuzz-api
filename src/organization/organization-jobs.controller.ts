@@ -1,17 +1,21 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { OrganizationWithJobs } from './types/organization-with-jobs.type';
 import { OrganizationService } from './organization.service';
 import { IsPublic } from 'src/common/decorators/public.decorator';
+import { OrganizationWithJobsEntity } from './entities/organization-with-jobs.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('organization/:organizationId/jobs')
+@ApiTags('Organization With Jobs')
 export class OrganizationJobsController {
   constructor(private readonly organizationService: OrganizationService) {}
 
   @IsPublic()
   @Get()
-  getAllJobs(
+  async getAllJobs(
     @Param('organizationId') organizationId: string,
-  ): Promise<OrganizationWithJobs> {
-    return this.organizationService.findOneWithJobs(organizationId);
+  ): Promise<OrganizationWithJobsEntity> {
+    return new OrganizationWithJobsEntity(
+      await this.organizationService.findOneWithJobs(organizationId),
+    );
   }
 }

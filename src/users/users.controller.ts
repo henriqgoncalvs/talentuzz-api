@@ -11,35 +11,39 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SignUpDto } from 'src/auth/dto/sign-up.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUser } from 'src/common/decorators/get-current-user.decorator';
 import { Express } from 'express';
+import { UserEntity } from './entities/user.entity';
 
 @ApiTags('Users')
+@ApiBearerAuth('access-token')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() signUpDto: SignUpDto) {
-    return this.usersService.create(signUpDto);
+  async create(@Body() signUpDto: SignUpDto) {
+    return new UserEntity(await this.usersService.create(signUpDto));
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    const users = await this.usersService.findAll();
+
+    return users.map((user) => new UserEntity(user));
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return new UserEntity(await this.usersService.findOne(id));
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return new UserEntity(await this.usersService.update(id, updateUserDto));
   }
 
   @Delete(':id')

@@ -52,6 +52,33 @@ export class UsersRepository {
     }
   }
 
+  async findOneWithOrganizationOrFail(
+    id: string,
+  ): Promise<Omit<User & { avatar: PublicFile }, 'password' | 'hashedRt'>> {
+    try {
+      const user = await this.prismaService.user.findFirstOrThrow({
+        where: {
+          id,
+        },
+        select: {
+          createdAt: true,
+          email: true,
+          id: true,
+          avatar: true,
+          organization: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+
+      return user;
+    } catch {
+      throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
+    }
+  }
+
   async findByEmailOrFail(email: string): Promise<User> {
     try {
       const user = await this.prismaService.user.findUniqueOrThrow({
