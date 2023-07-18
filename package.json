@@ -5,7 +5,11 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
+    "postinstall": "npm run prisma:generate",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -22,7 +26,7 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:push": "prisma db push",
     "prisma:studio": "prisma studio",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
