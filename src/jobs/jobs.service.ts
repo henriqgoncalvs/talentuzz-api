@@ -3,6 +3,7 @@ import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { JobsRepository } from './repositories/jobs.repository';
 import { OrganizationService } from 'src/organization/organization.service';
+import { JobWithOrganizationEntity } from './entities/job-with-organization.entity';
 
 @Injectable()
 export class JobsService {
@@ -23,6 +24,10 @@ export class JobsService {
 
   findAll() {
     return this.jobsRepository.findAll();
+  }
+
+  findAllWithOrganization(): Promise<JobWithOrganizationEntity[]> {
+    return this.jobsRepository.findAllWithOrganization();
   }
 
   update(id: string, updateJobDto: UpdateJobDto) {

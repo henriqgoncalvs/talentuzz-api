@@ -68,6 +68,15 @@ export class AuthService {
           data: {
             email: signUpDto.email,
             password: hash,
+            organization: {
+              create: {
+                email: signUpDto.org_email,
+                info: signUpDto.org_info,
+                name: signUpDto.org_name,
+                phone: signUpDto.org_phone,
+                location: signUpDto.org_location,
+              },
+            },
           },
           select: {
             id: true,

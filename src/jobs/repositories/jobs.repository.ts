@@ -29,6 +29,14 @@ export class JobsRepository {
     return this.prismaService.job.findMany();
   }
 
+  findAllWithOrganization() {
+    return this.prismaService.job.findMany({
+      include: {
+        organization: true,
+      },
+    });
+  }
+
   update(id: string, updateJobDto: UpdateJobDto): Promise<Job> {
     return this.prismaService.job.update({
       where: {
