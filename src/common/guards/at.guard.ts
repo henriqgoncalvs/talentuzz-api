@@ -1,6 +1,11 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
+import { MessagesHelper } from '../helpers/messages.helper';
 
 @Injectable()
 export class AtGuard extends AuthGuard('jwt') {
@@ -16,6 +21,10 @@ export class AtGuard extends AuthGuard('jwt') {
 
     if (isPublic) return true;
 
-    return super.canActivate(context);
+    try {
+      return super.canActivate(context);
+    } catch {
+      throw new UnauthorizedException(MessagesHelper.ACCESS_TOKEN_EXPIRED);
+    }
   }
 }

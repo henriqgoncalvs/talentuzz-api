@@ -29,19 +29,20 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto): Promise<UserWithTokenEntity> {
-    const user = new UserEntity(
-      await this.prismaService.user.findUnique({
-        where: {
-          email: loginDto.email,
-        },
-      }),
-    );
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email: loginDto.email,
+      },
+    });
 
     if (!user) {
       throw new UnauthorizedException(MessagesHelper.CREDENTIALS_INVALID);
     }
 
-    const isPasswordValid = argon.verify(user.password, loginDto.password);
+    const isPasswordValid = await argon.verify(
+      user.password,
+      loginDto.password,
+    );
 
     if (!isPasswordValid) {
       throw new UnauthorizedException(MessagesHelper.CREDENTIALS_INVALID);
@@ -161,7 +162,7 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '15m',
+        expiresIn: '1m',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),

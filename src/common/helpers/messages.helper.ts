@@ -8,4 +8,6 @@ export const MessagesHelper = {
   EMAIL_EXIST: 'Email já está uso',
   ORGANIZATION_NOT_FOUND: 'Organização não encontrada',
   USER_WITH_NO_ORGANIZATION: 'O usuário não tem organização criada!',
+  USER_NOT_LOGGED: 'Usuário não está logado',
+  ACCESS_TOKEN_EXPIRED: 'Token de acesso expirado',
 };

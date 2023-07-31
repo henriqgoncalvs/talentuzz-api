@@ -50,8 +50,8 @@ export class AuthController {
     @GetCurrentUser('sub') userId: string,
     @GetCurrentUser('refreshToken') refreshToken: string,
   ) {
-    await this.authService.refreshAccessToken(userId, refreshToken);
-
-    return;
+    return new UserWithTokenEntity(
+      await this.authService.refreshAccessToken(userId, refreshToken),
+    );
   }
 }
