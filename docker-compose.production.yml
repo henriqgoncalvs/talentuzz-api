@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    container_name: talentuzz-prod-db
+    image: postgres
+    tty: true
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_DB=${DATABASE_HOST}
+
+  app:
+    container_name: talentuzz-prod-app
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+      - 5555:5555
+    depends_on:
+      - db
+
+volumes:
+  db:

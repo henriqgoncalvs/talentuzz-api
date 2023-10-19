@@ -50,7 +50,8 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -75,8 +76,7 @@
     "ts-jest": "29.0.5",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
-    "tsconfig-paths": "4.2.0",
-    "typescript": "^4.7.4"
+    "tsconfig-paths": "4.2.0"
   },
   "jest": {
     "moduleFileExtensions": [

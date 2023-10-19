@@ -10,10 +10,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
-  // Security
-  app.use(helmet());
-  app.enableCors();
-
   // Swagger
   const config = new DocumentBuilder()
     .setTitle('Talentuzz API')
@@ -29,6 +25,10 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+
+  // Security
+  app.use(helmet());
+  app.enableCors();
 
   // Pipes
   app.useGlobalPipes(
