@@ -1,12 +1,12 @@
 <div align="center">
-<a href="https://talentuzz.hnqg.io">
+<a href="https://talentuzz.vercel.app">
 <img src="./gh_banner.png">
 </a>
 </div>
 
 # Talentuzz API
 
-Talentuzz API is a project developed with NestJS, TypeScript, PostgreSQL, Prisma, Swagger, and Docker. It serves as the backend for the [Talentuzz](https://talentuzz.hnqg.io) hiring platform, providing APIs for managing organizations, jobs, and user authentication.
+Talentuzz API is a project developed with NestJS, TypeScript, PostgreSQL, Prisma, Swagger, and Docker. It serves as the backend for the [Talentuzz](https://talentuzz.vercel.app) hiring platform, providing APIs for managing organizations, jobs, and user authentication.
 
 <div align="center">
     <a href="#-getting-started">
@@ -25,18 +25,18 @@ Talentuzz API is a project developed with NestJS, TypeScript, PostgreSQL, Prisma
         Stack
     </a>
     <span>&nbsp;❖&nbsp;</span>
-    <a href="https://talentuzz.hnqg.io" target="_blank">
+    <a href="https://talentuzz.vercel.app" target="_blank">
         Deploy ↗︎
     </a>
     <span>&nbsp;❖&nbsp;</span>
-    <a href="https://talentuzz-api.onrender.com/docs" target="_blank">
+    <a href="https://talentuzz-api-production.up.railway.app/docs" target="_blank">
         API Docs ↗︎
     </a>
 </div>
 
 ## ✌ Please don't forget to leave a star
 
-See more projects on my profile - [@hnqg](https://github.com/hnqg)
+See more projects on my profile - [@henriqgoncalvs](https://github.com/henriqgoncalvs)
 
 ## 🛠️ Stack
 
@@ -57,7 +57,7 @@ See more projects on my profile - [@hnqg](https://github.com/hnqg)
 
 ### **Project setup:**
 
-1. Clone or [fork](git@github.com:hnqg/talentuzz-api.git) the repository:
+1. Clone or [fork](git@github.com:henriqgoncalvs/talentuzz-api.git) the repository:
 
 ```bash
 git@github.com:hnqg/talentuzz-api.git
@@ -89,8 +89,8 @@ The Talentuzz API will be running at [http://localhost:3000](http://localhost:30
 
 ## 😊 Contributing
 
-<a href="https://github.com/hnqg/talentuzz-api/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=hnqg/talentuzz-api" />
+<a href="https://github.com/henriqgoncalvs/talentuzz-api/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=henriqgoncalvs/talentuzz-api" />
 </a>
 
 <p></p>
@@ -100,4 +100,4 @@ The Talentuzz API will be running at [http://localhost:3000](http://localhost:30
 - **Render.com**: Use a platform as Render.com for easy deploy (I'm not sponsored by Render.com, I just like it).
 - **Docker**: Use Docker to containerize the application and deploy it to your preferred hosting platform.
 
-🐲 Created by [Henrique Gonçalves](https://github.com/hnqg) (or hnqg if you prefer). You can find me at [![Instagram Badge](https://img.shields.io/badge/Instagram-E4405F?logo=instagram&logoColor=white)](https://www.instagram.com/_hnqg/) [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/henriiqueg/)
+🐲 Created by [Henrique Gonçalves](https://github.com/henriqgoncalvs). You can find me at [![Instagram Badge](https://img.shields.io/badge/Instagram-E4405F?logo=instagram&logoColor=white)](https://www.instagram.com/henriqgoncalvs/) [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/henriiqueg/)
